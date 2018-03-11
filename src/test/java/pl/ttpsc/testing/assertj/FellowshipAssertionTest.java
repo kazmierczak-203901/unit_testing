@@ -38,6 +38,8 @@ public class FellowshipAssertionTest {
 
     @Test
     public void shouldContainTupleForBoromirSamAndLegolas() {
+        // Extracting multiple values at once (using tuple to group them)
+        // Create tuples with name and race name
     }
 
 
