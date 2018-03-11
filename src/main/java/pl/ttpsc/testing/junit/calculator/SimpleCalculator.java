@@ -14,7 +14,7 @@ public class SimpleCalculator {
 
     public double divide(double numerator, double denominator) throws CannotDivideByZeroException {
         if (denominator == 0.0d) {
-            throw new CannotDivideByZeroException();
+            throw new CannotDivideByZeroException("Can't by zero!");
         }
 
         return numerator / denominator;
@@ -49,6 +49,10 @@ public class SimpleCalculator {
 }
 
 class CannotDivideByZeroException extends Exception {
+
+    public CannotDivideByZeroException(String message) {
+        super(message);
+    }
 }
 
 class CannotCalculateSquareRootOfNegativeNumber extends Exception {
