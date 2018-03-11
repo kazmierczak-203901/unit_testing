@@ -1,5 +1,7 @@
 package pl.ttpsc.testing.junit.calculator;
 
+import java.util.stream.IntStream;
+
 public class SimpleCalculator {
     public double add(double number1, double number2) {
 
@@ -10,12 +12,12 @@ public class SimpleCalculator {
         return number1 - number2;
     }
 
-    public double divide(double numerator, double denumetator) throws CannotDivideByZeroException {
-        if (denumetator == 0.0d) {
+    public double divide(double numerator, double denominator) throws CannotDivideByZeroException {
+        if (denominator == 0.0d) {
             throw new CannotDivideByZeroException();
         }
 
-        return numerator / denumetator;
+        return numerator / denominator;
     }
 
     public double calculateSquareRoot(double number) throws CannotCalculateSquareRootOfNegativeNumber {
@@ -26,6 +28,23 @@ public class SimpleCalculator {
 
         return Math.sqrt(number);
 
+    }
+
+    public int modulo(int a, int b) {
+        return a % b;
+    }
+
+    public boolean isPrime(int a) {
+
+        //Java 8
+        return !IntStream.range(2, a).anyMatch(e -> modulo(a, e) == 0);
+
+        //before Java 8
+//		for (int i = 2; i < a; i++) {
+//			if(modulo(a, i)==0)
+//				return false;
+//		}
+//		return true;
     }
 }
 
