@@ -124,6 +124,7 @@ public class SimpleCalculatorTest {
 
     @Test
     public void shouldNotDivideByZeroWithAssert() {
+        
         //given
         double a = 2.0;
         double b = 0.0;
