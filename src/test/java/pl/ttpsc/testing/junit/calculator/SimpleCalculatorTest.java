@@ -2,25 +2,23 @@ package pl.ttpsc.testing.junit.calculator;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.assertj.core.api.Assertions;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junitparams.JUnitParamsRunner.$;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnitParamsRunner.class)
 public class SimpleCalculatorTest {
 
     public static long startTime;
-    SimpleCalculator sut;
-
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+    SimpleCalculator sut;
 
     @BeforeClass
     public static void beforeClass() {
@@ -124,17 +122,17 @@ public class SimpleCalculatorTest {
 
     @Test
     public void shouldNotDivideByZeroWithAssert() {
-        
+
         //given
         double a = 2.0;
         double b = 0.0;
 
         //expect
         assertThatExceptionOfType(CannotDivideByZeroException.class)
-                .isThrownBy(() -> sut.divide(a,b));
+                .isThrownBy(() -> sut.divide(a, b));
 
         //when
-        assertThatThrownBy(() -> sut.divide(a,b))
+        assertThatThrownBy(() -> sut.divide(a, b))
                 .isInstanceOf(CannotDivideByZeroException.class);
 
     }

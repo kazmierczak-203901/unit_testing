@@ -4,16 +4,22 @@ package pl.ttpsc.testing.junit.stack;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.*;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import static junitparams.JUnitParamsRunner.$;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnitParamsRunner.class)
 public class StackExerciseTest {
     public static long startTime;
     StackExercise stackut;
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @BeforeClass
     public static void beforeClass() {
@@ -103,18 +109,17 @@ public class StackExerciseTest {
         }
 
         //then
-        assertEquals(string, first);
+        assertNotEquals(string, first);
     }
 
     @Test
     //@Ignore
     @Parameters(method = "stringFrag")
-    public void shouldGetDifferentStrings(String string, boolean stringFrag) {
+    public void shouldGetDifferentStrings(String stringFirst, String stringSecond) {
         //given
-        String a = "firstString";
 
         //when
-        stackut.push(a);
+        stackut.push(stringFirst);
 
         String first = null;
         try {
@@ -124,14 +129,52 @@ public class StackExerciseTest {
         }
 
         //then
-        assertEquals(stringFrag, string);
+        assertEquals(first, stringSecond);
     }
 
     Object[] stringFrag() {
         return $(
-                $("I", false),
-                $("like", false),
-                $("summer")
+                $("I", "I"),
+                $("like", "like"),
+                $("summer", "summer")
         );
+    }
+
+    @Test(expected = StackEmptyException.class)
+    public void shouldThrowException() throws StackEmptyException {
+        // given
+        String someString = "some";
+
+        // when
+        stackut.push(someString);
+        stackut.pop();
+        stackut.pop();
+    }
+
+    @Test
+    public void shouldThrowExceptionOnceAgain() throws StackEmptyException {
+        // given
+        String someString = "some";
+
+        // expect
+        expectedException.expect(StackEmptyException.class);
+
+        // when
+        stackut.push(someString);
+        stackut.pop();
+        stackut.pop();
+    }
+
+    @Test
+    public void shouldThrowOneMoreTime() throws StackEmptyException {
+        // given
+
+        // when
+        assertThatExceptionOfType(StackEmptyException.class)
+                .isThrownBy(() -> stackut.pop());
+
+        // then
+        assertThatThrownBy(() -> stackut.pop())
+                .isInstanceOf(StackEmptyException.class);
     }
 }
